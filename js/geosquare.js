@@ -7,12 +7,15 @@
  */
 
 GeoSquare = function(_parentElement, color_1, color_2, color_3, color_4,
-                     numrowcol_a, chaos_1, chaos_2){
+                     numrowcol_a, chaos_1, chaos_2, size){
 	this.parentElement = _parentElement;
 	this.color_1 = color_1;
 	this.color_2 = color_2;
 	this.color_3 = color_3;
 	this.color_4 = color_4;
+
+	this.size = size;
+	console.log("this.size:", this.size)
 
 	this.num_levels = 2;
 
@@ -33,10 +36,11 @@ GeoSquare = function(_parentElement, color_1, color_2, color_3, color_4,
 GeoSquare.prototype.initVis = function(){
 	var vis = this;
 
-	vis.margin = { top: 20, right: 20, bottom: 20, left: 20 };
+	var margins_all = vis.size * 0.02
+	vis.margin = { top: margins_all, right: margins_all, bottom: margins_all, left: margins_all };
 
-	vis.width = 600 - vis.margin.left - vis.margin.right,
-    vis.height = 600 - vis.margin.top - vis.margin.bottom;
+	vis.width = this.size - vis.margin.left - vis.margin.right,
+    vis.height = this.size - vis.margin.top - vis.margin.bottom;
 
 
   // SVG drawing area
@@ -68,8 +72,10 @@ GeoSquare.prototype.updateShapes = function(newcolor1, newcolor2, newcolor3, new
                                             numrow, numcol, newchaos_1, newchaos_2){
 	var vis = this;
 
+	// remove all previous squares
 	vis.svg.selectAll(".design-squares").remove();
 
+	// update the parameters
 	vis.color_1 = newcolor1;
 	vis.color_2 = newcolor2;
 	vis.color_3 = newcolor3;
