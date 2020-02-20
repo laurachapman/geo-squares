@@ -6,16 +6,20 @@
  * @param _data						-- the  
  */
 
-GeoSquare = function(_parentElement, color_1, color_2, color_3, numrowcol_a, chaos){
+GeoSquare = function(_parentElement, color_1, color_2, color_3, color_4,
+                     numrowcol_a, chaos_1, chaos_2){
 	this.parentElement = _parentElement;
 	this.color_1 = color_1;
 	this.color_2 = color_2;
 	this.color_3 = color_3;
+	this.color_4 = color_4;
+
 	this.num_levels = 2;
 
 	this.num_row = numrowcol_a;
 	this.num_col = numrowcol_a;
-	this.chaos = chaos;
+	this.chaos_1 = chaos_1;
+	this.chaos_2 = chaos_2;
 
     this.initVis();
 }
@@ -51,7 +55,7 @@ GeoSquare.prototype.initVis = function(){
 
 	// draw the shapes
 	vis.updateShapes(vis.color_1, vis.color_2, vis.color_3,
-        vis.num_row, vis.num_col);
+        vis.num_row, vis.num_col, vis.chaos_1, vis.chaos_2);
 }
 
 
@@ -60,8 +64,8 @@ GeoSquare.prototype.initVis = function(){
  * Function parameters only needed if different kinds of updates are needed
  */
 
-GeoSquare.prototype.updateShapes = function(newcolor1, newcolor2, newcolor3,
-                                            numrow, numcol, newchaos){
+GeoSquare.prototype.updateShapes = function(newcolor1, newcolor2, newcolor3, newcolor4,
+                                            numrow, numcol, newchaos_1, newchaos_2){
 	var vis = this;
 
 	vis.svg.selectAll(".design-squares").remove();
@@ -71,7 +75,8 @@ GeoSquare.prototype.updateShapes = function(newcolor1, newcolor2, newcolor3,
 	vis.color_3 = newcolor3;
 	vis.num_row = numrow;
 	vis.num_col = numcol;
-	vis.chaos = newchaos;
+	vis.chaos_1 = newchaos_1;
+	vis.chaos_2 = newchaos_2;
 
 	console.log("num col:", vis.num_col, "num row:", vis.num_row);
 
@@ -106,8 +111,11 @@ GeoSquare.prototype.drawSquare = function(x, y, count){
         .attr("y", y)
         .attr("class", "design-squares")
         .attr("fill", function(){
-            if (count % vis.chaos === 0){
+            if (count % vis.chaos_1 === 0){
                 return vis.color_3;
+            }
+            else if (count % vis.chaos_2 === 0){
+                return vis.color_4;
             }
             else if (count % 2 === 0){
                 return vis.color_1;
